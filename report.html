@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Report</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">ExpenseMonitor</div>
+        <div class="links">
+            <a href="index.html">Dashboard</a>
+            <a href="add-expense.html">Add Expense</a>
+            <a href="view-expenses.html">View Expenses</a>
+            <a href="report.html">Reports</a>
+            <a href="settings.html">Settings</a>
+        </div>
+    </nav>
+    <div class="container">
+        <h2>Expense Summary Report</h2>
+        <div class="summary-box">
+            <h3>Total Spending:</h3>
+            <p id="totalSpending">Loading...</p>
+        </div>
+        <h3>Category-wise Spending</h3>
+        <div id="categoryData"></div>
+    </div>
+    <script>
+        function generateReport() {
+            let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+            if (expenses.length === 0) {
+                document.getElementById("totalSpending").innerText = "No expenses found.";
+                return;
+            }
+            let total = 0;
+            let categoryTotals = {};
+            expenses.forEach(exp => {
+                let amount = parseFloat(exp.amount);
+                total += amount;
+                if (!categoryTotals[exp.category]) {
+                    categoryTotals[exp.category] = 0;
+                }
+                categoryTotals[exp.category] += amount;
+            });
+            document.getElementById("totalSpending").innerText = "$" + total.toFixed(2);
+            let categoryArea = document.getElementById("categoryData");
+            categoryArea.innerHTML = "";
+            for (let category in categoryTotals) {
+                categoryArea.innerHTML += `
+                    <div class="category-box">
+                        <strong>${category}:</strong> $${categoryTotals[category].toFixed(2)}
+                    </div>
+                `;
+            }
+        }
+        window.onload = generateReport;
+    </script>
+</body>
+</html>

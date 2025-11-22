@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Expense</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">ExpenseMonitor</div>
+        <div class="links">
+            <a href="index.html">Dashboard</a>
+            <a href="add-expense.html">Add Expense</a>
+            <a href="view-expenses.html">View Expenses</a>
+            <a href="report.html">Reports</a>
+            <a href="settings.html">Settings</a>
+        </div>
+    </nav>
+    <div class="container">
+        <h2>Add New Expense</h2>
+        <label>Title:</label>
+        <input type="text" id="title">
+        <label>Amount:</label>
+        <input type="number" id="amount">
+        <label>Category:</label>
+        <select id="category">
+            <option>Food</option>
+            <option>Travel</option>
+            <option>Bills</option>
+            <option>Shopping</option>
+            <option>Health</option>
+            <option>Other</option>
+        </select>
+        <label>Date:</label>
+        <input type="date" id="date">
+        <label>Description:</label>
+        <textarea id="description" rows="3"></textarea>
+        <button onclick="saveExpense()" class="btn">Save Expense</button>
+        <div class="success" id="successMsg">Expense Added Successfully!</div>
+    </div>
+    <script>
+        function saveExpense() {
+            let title = document.getElementById("title").value;
+            let amount = document.getElementById("amount").value;
+            let category = document.getElementById("category").value;
+            let date = document.getElementById("date").value;
+            let description = document.getElementById("description").value;
+            if (title === "" || amount === "" || date === "") {
+                alert("Please fill required fields (Title, Amount, Date).");
+                return;
+            }
+            let expense = {
+                title,
+                amount,
+                category,
+                date,
+                description
+            };
+            let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+            expenses.push(expense);
+            localStorage.setItem("expenses", JSON.stringify(expenses));
+            document.getElementById("successMsg").style.display = "block";
+            document.getElementById("title").value = "";
+            document.getElementById("amount").value = "";
+            document.getElementById("category").value = "Food";
+            document.getElementById("date").value = "";
+            document.getElementById("description").value = "";
+            setTimeout(() => {
+                document.getElementById("successMsg").style.display = "none";
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

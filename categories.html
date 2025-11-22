@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories - Expense Monitor</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Manage Categories</h1>
+        <input type="text" id="categoryInput" placeholder="Enter new category">
+        <button onclick="addCategory()">Add Category</button>
+        <ul id="categoryList"></ul>
+    </div>
+    <script>
+        function loadCategories() {
+            const categories = JSON.parse(localStorage.getItem("categories")) || [];
+            const list = document.getElementById("categoryList");
+            list.innerHTML = "";
+            categories.forEach((cat, index) => {
+                const li = document.createElement("li");
+                li.innerHTML = `
+                    ${cat} 
+                    <button class="delete-btn" onclick="deleteCategory(${index})">Delete</button>
+                `;
+                list.appendChild(li);
+            });
+        }
+        function addCategory() {
+            const input = document.getElementById("categoryInput");
+            const value = input.value.trim();
+            if (value === "") {
+                alert("Category cannot be empty!");
+                return;
+            }
+            const categories = JSON.parse(localStorage.getItem("categories")) || [];
+            if (categories.includes(value)) {
+                alert("Category already exists!");
+                return;
+            }
+            categories.push(value);
+            localStorage.setItem("categories", JSON.stringify(categories));
+            input.value = "";
+            loadCategories();
+        }
+        function deleteCategory(index) {
+            const categories = JSON.parse(localStorage.getItem("categories")) || [];
+            categories.splice(index, 1);
+            localStorage.setItem("categories", JSON.stringify(categories));
+            loadCategories();
+        }
+        loadCategories();
+    </script>
+</body>
+</html>

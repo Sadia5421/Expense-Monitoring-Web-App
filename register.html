@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Expense Monitor</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        <label>Name:</label>
+        <input type="text" id="name" placeholder="Enter your name">
+        <label>Email:</label>
+        <input type="email" id="email" placeholder="Enter your email">
+        <label>Password:</label>
+        <input type="password" id="password" placeholder="Enter your password">
+        <button onclick="register()">Register</button>
+        <div class="message" id="msg"></div>
+        <a href="login.html" class="login-link">Already have an account? Login</a>
+    </div>
+    <script>
+        function register() {
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const msg = document.getElementById("msg");
+            if (!name || !email || !password) {
+                msg.innerText = "Please fill all fields!";
+                return;
+            }
+            const users = JSON.parse(localStorage.getItem("users")) || [];
+            const existingUser = users.find(u => u.email === email);
+            if (existingUser) {
+                msg.innerText = "Email already registered!";
+                return;
+            }
+            users.push({ name, email, password });
+            localStorage.setItem("users", JSON.stringify(users));
+            msg.style.color = "green";
+            msg.innerText = "Registration successful! Redirecting to login...";
+            setTimeout(() => {
+                window.location.href = "login.html";
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

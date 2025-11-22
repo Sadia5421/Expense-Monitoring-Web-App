@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Monitoring App</title>
+    <link rel="stylesheet" href="/style.css">
+    <script>
+        const currentUser = localStorage.getItem("currentUser");
+        if (!currentUser) {
+            window.location.href = "login.html";
+        }
+    </script>
+</head>
+<body>
+    <nav>
+        <div class="logo">ExpenseMonitor</div>
+        <div class="links">
+            <a href="index.html">Dashboard</a>
+            <a href="add-expense.html">Add Expense</a>
+            <a href="view-expenses.html">View Expenses</a>
+            <a href="report.html">Reports</a>
+            <a href="settings.html">Settings</a>
+            <a href="logout.html">Logout</a>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Expense Monitoring Dashboard</h1>
+        <div class="cards">
+            <div class="card">
+                <h2>$0</h2>
+                <p>Total Expenses</p>
+            </div>
+            <div class="card">
+                <h2>$0</h2>
+                <p>This Month</p>
+            </div>
+            <div class="card">
+                <h2>0</h2>
+                <p>Categories Used</p>
+            </div>
+        </div>
+        <div class="buttons">
+            <a href="add-expense.html" class="btn">Add New Expense</a>
+            <a href="view-expenses.html" class="btn">View All Expenses</a>
+        </div>
+    </div>
+</body>
+</html>
